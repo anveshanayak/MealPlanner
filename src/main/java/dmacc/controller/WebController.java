@@ -12,7 +12,6 @@ import dmacc.repository.MealPlanRepository;
 import dmacc.repository.RecipeRepository;
 import dmacc.repository.ingredientsRepository;
 
-
 @Controller
 public class WebController {
 	@Autowired
