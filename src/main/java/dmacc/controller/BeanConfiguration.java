@@ -7,7 +7,9 @@ import dmacc.beans.Ingredients;
 import dmacc.beans.MealPlan;
 import dmacc.beans.Recipes;
 
-
+import dmacc.beans.Cookbook;
+import dmacc.beans.Fridge;
+import dmacc.beans.ShoppingList;
 
 @Configuration
 public class BeanConfiguration {
@@ -29,4 +31,21 @@ public class BeanConfiguration {
 		Ingredients bean = new Ingredients();
 		return bean;
 	}
+	@Bean
+    public Fridge fridge() {
+        Fridge bean = new Fridge();
+        return bean;
+    }
+
+    @Bean
+    public Cookbook cookbook() {
+        Cookbook bean = new Cookbook();
+        return bean;
+    }
+
+    @Bean
+    public ShoppingList shoppingList() {
+        ShoppingList bean = new ShoppingList();
+        return bean;
+    }
 }

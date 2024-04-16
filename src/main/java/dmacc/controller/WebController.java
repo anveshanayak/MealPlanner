@@ -12,6 +12,15 @@ import dmacc.repository.MealPlanRepository;
 import dmacc.repository.RecipeRepository;
 import dmacc.repository.ingredientsRepository;
 
+import dmacc.beans.Cookbook;
+import dmacc.beans.Fridge;
+import dmacc.beans.ShoppingList;
+
+import dmacc.repository.CookbookRepository;
+import dmacc.repository.FridgeRepository;
+import dmacc.repository.ShoppingListRepository;
+
+
 @Controller
 public class WebController {
 	@Autowired
@@ -21,6 +30,12 @@ public class WebController {
 	@Autowired
 	MealPlanRepository mealPlanRepo;
 
+	@Autowired
+    FridgeRepository fridgeRepo;
+    @Autowired
+    CookbookRepository cookbookRepo;
+    @Autowired
+    ShoppingListRepository shoppingListRepo;
 
 	
 	@GetMapping("/toMenu")
@@ -120,6 +135,76 @@ public class WebController {
 		return "ingredientsView";
 	}
 
+	// --------- Fridge Navigation -----------
+    @GetMapping("viewFridge")
+    public String viewFridge(Model model) {
+        if (fridgeRepo.findAll().isEmpty()) {
+            return addToFridge(model);
+        }
+        model.addAttribute("fridge", fridgeRepo.findAll().get(0));
+        return "fridgeView";
+    }
 
+    @GetMapping("/addToFridge")
+    public String addToFridge(Model model) {
+        Fridge fridge = new Fridge();
+        model.addAttribute("fridge", fridge);
+        model.addAttribute("ingredients", ingredientsRepo.findAll());
+        return "addToFridge";
+    }
+
+    @PostMapping("/updateFridge")
+    public String updateFridge(Fridge fridge) {
+        fridgeRepo.save(fridge);
+        return "redirect:/viewFridge";
+    }
+
+    // --------- Cookbook Navigation -----------
+    @GetMapping("viewCookbook")
+    public String viewCookbook(Model model) {
+        if (cookbookRepo.findAll().isEmpty()) {
+            return addToCookbook(model);
+        }
+        model.addAttribute("cookbook", cookbookRepo.findAll().get(0));
+        return "cookbookView";
+    }
+
+    @GetMapping("/addToCookbook")
+    public String addToCookbook(Model model) {
+        Cookbook cookbook = new Cookbook();
+        model.addAttribute("cookbook", cookbook);
+        model.addAttribute("recipes", recipeRepo.findAll());
+        return "addToCookbook";
+    }
+
+    @PostMapping("/updateCookbook")
+    public String updateCookbook(Cookbook cookbook) {
+        cookbookRepo.save(cookbook);
+        return "redirect:/viewCookbook";
+    }
+
+    // --------- ShoppingList Navigation -----------
+    @GetMapping("viewShoppingList")
+    public String viewShoppingList(Model model) {
+        if (shoppingListRepo.findAll().isEmpty()) {
+            return generateShoppingList(model);
+        }
+        model.addAttribute("shoppingList", shoppingListRepo.findAll().get(0));
+        return "shoppingListView";
+    }
+
+    @GetMapping("/generateShoppingList")
+    public String generateShoppingList(Model model) {
+        // Logic to generate the shopping list based on the recipes and the fridge
+        ShoppingList shoppingList = new ShoppingList();
+        model.addAttribute("shoppingList", shoppingList);
+        return "generateShoppingList";
+    }
+
+    @PostMapping("/updateShoppingList")
+    public String updateShoppingList(ShoppingList shoppingList) {
+        shoppingListRepo.save(shoppingList);
+        return "redirect:/viewShoppingList";
+    }
 
 }
