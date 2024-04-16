@@ -1,5 +1,5 @@
 -- Drop database if exists
-DROP DATABASE IF EXISTS mealplanner_db;
+DROP DATABASE IF EXISTS mealplan_db;
 
 -- Create the database (change 'mealplan_db' to your desired database name)
 CREATE DATABASE mealplan_db;
